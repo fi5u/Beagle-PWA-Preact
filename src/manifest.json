@@ -1,6 +1,6 @@
 {
-  "name": "Preact PWA",
-  "short_name": "Preact PWA",
+  "name": "Beagle - Site Search Tool",
+  "short_name": "Beagle",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
