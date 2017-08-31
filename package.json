@@ -11,7 +11,9 @@
         "test": "eslint src && preact test"
     },
     "eslintConfig": {
-        "extends": ["eslint-config-synacor"]
+        "extends": [
+            "eslint-config-synacor"
+        ]
     },
     "devDependencies": {
         "eslint": "^4.3.0",
@@ -22,9 +24,11 @@
         "sass-loader": "^6.0.6"
     },
     "dependencies": {
+        "platform": "^1.3.4",
         "preact": "^8.2.1",
         "preact-compat": "^3.16.0",
         "preact-router": "^2.5.5",
-        "semantic-ui-react": "^0.71.3"
+        "react-feather": "^1.0.7",
+        "typestyle": "^1.3.8"
     }
 }
