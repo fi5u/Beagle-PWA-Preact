@@ -4,16 +4,15 @@
     "main": "index.js",
     "license": "MIT",
     "scripts": {
-        "start": "if-env NODE_ENV=production && yarn run -s serve || yarn run -s dev",
+        "start":
+            "if-env NODE_ENV=production && yarn run -s serve || yarn run -s dev",
         "build": "preact build",
-        "serve": "preact build && preact serve",
+        "serve": "preact build -p && preact serve",
         "dev": "preact watch",
         "test": "eslint src && preact test"
     },
     "eslintConfig": {
-        "extends": [
-            "eslint-config-synacor"
-        ]
+        "extends": ["eslint-config-synacor"]
     },
     "devDependencies": {
         "eslint": "^4.3.0",
@@ -21,13 +20,15 @@
         "if-env": "^1.0.0",
         "node-sass": "^4.5.3",
         "preact-cli": "^1.4.1",
-        "sass-loader": "^6.0.6"
+        "sass-loader": "^6.0.6",
+        "simplehttp2server": "^2.0.0"
     },
     "dependencies": {
         "platform": "^1.3.4",
         "preact": "^8.2.1",
         "preact-compat": "^3.16.0",
         "preact-router": "^2.5.5",
+        "prop-types": "^15.5.10",
         "react-feather": "^1.0.7",
         "typestyle": "^1.3.8"
     }

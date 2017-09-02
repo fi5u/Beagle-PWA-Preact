@@ -27,7 +27,12 @@ export function getColor(element, shade = 'base') {
  * @returns {string} Lowercase, if not known, defaults to `windows`
  */
 export function getPlatform() {
-    const currentDevice = platform.os.family.toLowerCase()
+    let currentDevice
+    try {
+        currentDevice = platform.os.family.toLowerCase()
+    } catch (e) {
+        return 'windows'
+    }
 
     if (currentDevice.indexOf('android') > -1) {
         return 'android'
