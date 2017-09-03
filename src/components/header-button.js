@@ -48,9 +48,13 @@ const classNames = {
     }),
 }
 
-const HeaderButton = ({ children, label }) => {
+const HeaderButton = ({ children, label, onClick }) => {
     return (
-        <button aria-label={label} className={classNames.button}>
+        <button
+            aria-label={label}
+            className={classNames.button}
+            onClick={onClick}
+        >
             <span className={classNames.buttonInner} tabIndex="-1">
                 {children}
             </span>
@@ -61,6 +65,7 @@ const HeaderButton = ({ children, label }) => {
 HeaderButton.propTypes = {
     children: PropTypes.node.isRequired,
     label: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired,
 }
 
 export default HeaderButton

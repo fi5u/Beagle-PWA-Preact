@@ -11,10 +11,10 @@ const classNames = {
     }),
 }
 
-const HeaderButtons = ({}) => {
+const HeaderButtons = ({ toggleSidebar }) => {
     return (
         <div className={classNames.buttons}>
-            <HeaderButton label="Open menu">
+            <HeaderButton label="Open menu" onClick={toggleSidebar}>
                 <Menu />
             </HeaderButton>
 
@@ -25,6 +25,8 @@ const HeaderButtons = ({}) => {
     )
 }
 
-HeaderButtons.propTypes = {}
+HeaderButtons.propTypes = {
+    toggleSidebar: PropTypes.func.isRequired,
+}
 
 export default HeaderButtons

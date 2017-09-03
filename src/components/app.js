@@ -1,15 +1,44 @@
+import 'semantic-ui-css/components/sidebar.css'
 import { h, Component } from 'preact'
+import { Button, Menu, Segment, Sidebar } from 'semantic-ui-react'
 import { Router } from 'preact-router'
 import Header from './header.js'
 import Home from '../routes/home'
+import { Link } from 'preact-router/match'
 import Profile from '../routes/profile'
 //import Home from 'async!./home'
 //import Profile from 'async!./profile'
+import { getColor as clr } from '../utils'
 import { getPlatform } from '../utils'
+import { style } from 'typestyle'
 
 export default class App extends Component {
     constructor() {
         super()
+
+        this.state = {
+            sidebarOpen: false,
+        }
+
+        this.classNames = this.classNames()
+    }
+
+    classNames() {
+        return {
+            navLink: style({
+                color: clr('brand'),
+                textDecoration: 'none',
+            }),
+            sidebar: style({
+                backgroundColor: clr('background', 'lighter'),
+                display: 'flex',
+                flexDirection: 'column',
+                padding: 14,
+            }),
+            sidebarWrap: style({
+                backgroundColor: clr('background'),
+            }),
+        }
     }
 
     /** Gets fired when the route changes.
@@ -20,16 +49,45 @@ export default class App extends Component {
         this.currentUrl = e.url
     }
 
+    /**
+     * Toggle the open status of sidebar
+     */
+    toggleSidebar = () => {
+        this.setState(prevState => {
+            return { sidebarOpen: !prevState.sidebarOpen }
+        })
+    }
+
     render() {
+        const { sidebarOpen } = this.state
+
         return (
-            <div id="app" data-device={getPlatform()}>
-                <Header />
-                <Router onChange={this.handleRoute}>
-                    <Home path="/" />
-                    <Profile path="/profile/" user="me" />
-                    <Profile path="/profile/:user" />
-                </Router>
-            </div>
+            <Sidebar.Pushable className={this.classNames.sidebarWrap}>
+                <Sidebar
+                    animation="uncover"
+                    as="nav"
+                    className={this.classNames.sidebar}
+                    icon="labeled"
+                    inverted
+                    vertical
+                    visible={sidebarOpen}
+                    width="thin"
+                >
+                    <Link activeClassName="active" className={this.classNames.navLink} href="/">Websites</Link>
+                    <Link activeClassName="active" className={this.classNames.navLink} href="/profile/" onClick={this.toggleSidebar}>Help</Link>
+                </Sidebar>
+
+                <Sidebar.Pusher>
+                    <div id="app" data-device={getPlatform()}>
+                        <Header toggleSidebar={this.toggleSidebar} />
+                        <Router onChange={this.handleRoute}>
+                            <Home path="/" />
+                            <Profile path="/profile/" user="me" />
+                            <Profile path="/profile/:user" />
+                        </Router>
+                    </div>
+                </Sidebar.Pusher>
+            </Sidebar.Pushable>
         )
     }
 }

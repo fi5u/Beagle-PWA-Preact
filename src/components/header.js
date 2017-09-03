@@ -1,5 +1,6 @@
 import { h, Component } from 'preact'
 import HeaderButtons from './header-buttons'
+import PropTypes from 'prop-types'
 import { getColor as clr } from '../utils'
 import { style } from 'typestyle'
 
@@ -36,12 +37,18 @@ export default class Header extends Component {
     }
 
     render() {
+        const { toggleSidebar } = this.props
+
         return (
             <header className={this.classNames.header}>
                 <h1 className={this.classNames.title}>Test</h1>
 
-                <HeaderButtons />
+                <HeaderButtons toggleSidebar={toggleSidebar} />
             </header>
         )
     }
+}
+
+Header.propTypes = {
+    toggleSidebar: PropTypes.func.isRequired,
 }
