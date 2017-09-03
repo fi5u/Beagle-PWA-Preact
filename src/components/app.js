@@ -6,6 +6,7 @@ import Header from './header.js'
 import Home from '../routes/home'
 import { Link } from 'preact-router/match'
 import Profile from '../routes/profile'
+import Help from '../routes/help'
 //import Home from 'async!./home'
 //import Profile from 'async!./profile'
 import { getColor as clr } from '../utils'
@@ -27,6 +28,7 @@ export default class App extends Component {
         return {
             navLink: style({
                 color: clr('brand'),
+                paddingBottom: 16,
                 textDecoration: 'none',
             }),
             sidebar: style({
@@ -73,8 +75,22 @@ export default class App extends Component {
                     visible={sidebarOpen}
                     width="thin"
                 >
-                    <Link activeClassName="active" className={this.classNames.navLink} href="/">Websites</Link>
-                    <Link activeClassName="active" className={this.classNames.navLink} href="/profile/" onClick={this.toggleSidebar}>Help</Link>
+                    <Link
+                        activeClassName="active"
+                        className={this.classNames.navLink}
+                        href="/"
+                        onClick={this.toggleSidebar}
+                    >
+                        Websites
+                    </Link>
+                    <Link
+                        activeClassName="active"
+                        className={this.classNames.navLink}
+                        href="/help/"
+                        onClick={this.toggleSidebar}
+                    >
+                        Help
+                    </Link>
                 </Sidebar>
 
                 <Sidebar.Pusher>
@@ -82,6 +98,7 @@ export default class App extends Component {
                         <Header toggleSidebar={this.toggleSidebar} />
                         <Router onChange={this.handleRoute}>
                             <Home path="/" />
+                            <Help path="/help/" />
                             <Profile path="/profile/" user="me" />
                             <Profile path="/profile/:user" />
                         </Router>
