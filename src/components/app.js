@@ -1,6 +1,7 @@
 import 'semantic-ui-css/components/sidebar.css'
 import { h, Component } from 'preact'
 import { Button, Menu, Segment, Sidebar } from 'semantic-ui-react'
+import { Layers, LifeBuoy } from 'react-feather'
 import { Router } from 'preact-router'
 import Header from './header.js'
 import Home from '../routes/home'
@@ -26,10 +27,21 @@ export default class App extends Component {
 
     classNames() {
         return {
+            icon: style({
+                height: 18,
+                marginRight: 6,
+                width: 18,
+            }),
             navLink: style({
                 color: clr('brand'),
+                display: 'flex',
                 paddingBottom: 16,
                 textDecoration: 'none',
+                $nest: {
+                    '&:hover': {
+                        color: '#fff',
+                    },
+                },
             }),
             sidebar: style({
                 backgroundColor: clr('background', 'lighter'),
@@ -81,15 +93,16 @@ export default class App extends Component {
                         href="/"
                         onClick={this.toggleSidebar}
                     >
-                        Websites
+                        <Layers className={this.classNames.icon} />Websites
                     </Link>
+
                     <Link
                         activeClassName="active"
                         className={this.classNames.navLink}
                         href="/help/"
                         onClick={this.toggleSidebar}
                     >
-                        Help
+                        <LifeBuoy className={this.classNames.icon} />Help
                     </Link>
                 </Sidebar>
 
