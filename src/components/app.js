@@ -63,12 +63,23 @@ export default class App extends Component {
         this.currentUrl = e.url
     }
 
-    /**
-     * Toggle the open status of sidebar
+    /** Toggle the open status of sidebar
+     * @param {bool} open   Force open or closed, toggle without param
      */
-    toggleSidebar = () => {
+    toggleSidebar = (event, open) => {
+        if (!this.state.sidebarOpen) {
+            event.stopImmediatePropagation()
+        }
+
+        const forceOpen = typeof open !== 'undefined'
+        if (forceOpen && this.state.sidebarOpen === open) {
+            return
+        }
+
         this.setState(prevState => {
-            return { sidebarOpen: !prevState.sidebarOpen }
+            return {
+                sidebarOpen: forceOpen ? open : !prevState.sidebarOpen,
+            }
         })
     }
 
@@ -106,7 +117,9 @@ export default class App extends Component {
                     </Link>
                 </Sidebar>
 
-                <Sidebar.Pusher>
+                <Sidebar.Pusher
+                    onClick={event => this.toggleSidebar(event, false)}
+                >
                     <div id="app" data-device={getPlatform()}>
                         <Header toggleSidebar={this.toggleSidebar} />
                         <Router onChange={this.handleRoute}>
