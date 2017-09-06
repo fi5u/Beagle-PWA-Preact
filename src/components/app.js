@@ -4,12 +4,14 @@ import { Button, Menu, Segment, Sidebar } from 'semantic-ui-react'
 import { Layers, LifeBuoy } from 'react-feather'
 import { Router } from 'preact-router'
 import Header from './header.js'
+import Help from '../routes/help'
 import Home from '../routes/home'
 import { Link } from 'preact-router/match'
 import Profile from '../routes/profile'
-import Help from '../routes/help'
+import SidenavTouch from '../utils/sidenav-touch'
 //import Home from 'async!./home'
 //import Profile from 'async!./profile'
+import { clamp } from 'lodash'
 import { getColor as clr } from '../utils'
 import { getPlatform } from '../utils'
 import { style } from 'typestyle'
@@ -18,10 +20,15 @@ export default class App extends Component {
     constructor() {
         super()
 
+        // STATE
         this.state = {
             sidebarOpen: false,
         }
 
+        // CLASS INSTANTIATIONS
+        this.sidenavTouch = new SidenavTouch(this.toggleSidebar)
+
+        // METHOD CALLS
         this.classNames = this.classNames()
     }
 
@@ -48,6 +55,7 @@ export default class App extends Component {
                 display: 'flex',
                 flexDirection: 'column',
                 padding: 14,
+                visibility: 'visible',
             }),
             sidebarWrap: style({
                 backgroundColor: clr('background'),
@@ -55,7 +63,8 @@ export default class App extends Component {
         }
     }
 
-    /** Gets fired when the route changes.
+    /**
+     *  Gets fired when the route changes.
 	 *	@param {Object} event		"change" event from [preact-router](http://git.io/preact-router)
 	 *	@param {string} event.url	The newly routed URL
 	 */
@@ -67,7 +76,7 @@ export default class App extends Component {
      * @param {bool} open   Force open or closed, toggle without param
      */
     toggleSidebar = (event, open) => {
-        if (!this.state.sidebarOpen) {
+        if (!this.state.sidebarOpen && event) {
             event.stopImmediatePropagation()
         }
 
@@ -119,6 +128,12 @@ export default class App extends Component {
 
                 <Sidebar.Pusher
                     onClick={event => this.toggleSidebar(event, false)}
+                    onTouchCancel={this.sidenavTouch.touchEnd}
+                    onTouchEnd={() => this.sidenavTouch.touchEnd()}
+                    onTouchMove={e => this.sidenavTouch.touchMove(e)}
+                    onTouchStart={e =>
+                        this.sidenavTouch.touchStart(e, this.pusher.base)}
+                    ref={el => (this.pusher = el)}
                 >
                     <div id="app" data-device={getPlatform()}>
                         <Header toggleSidebar={this.toggleSidebar} />
