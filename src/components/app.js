@@ -42,9 +42,15 @@ export default class App extends Component {
             navLink: style({
                 color: clr('brand'),
                 display: 'flex',
-                paddingBottom: 16,
+                marginBottom: 8,
+                padding: '6px 14px',
+                position: 'relative',
                 textDecoration: 'none',
                 $nest: {
+                    '&:focus': {
+                        backgroundColor: clr('brand', 'dark'),
+                        outline: 'none',
+                    },
                     '&:hover': {
                         color: '#fff',
                     },
@@ -54,7 +60,7 @@ export default class App extends Component {
                 backgroundColor: clr('background', 'lighter'),
                 display: 'flex',
                 flexDirection: 'column',
-                padding: 14,
+                padding: '14px 0',
                 visibility: 'visible',
             }),
             sidebarWrap: style({
