@@ -12,8 +12,7 @@ import SidenavTouch from '../utils/sidenav-touch'
 //import Home from 'async!./home'
 //import Profile from 'async!./profile'
 import { clamp } from 'lodash'
-import { getColor as clr } from '../utils'
-import { getPlatform } from '../utils'
+import { getColor as clr, getPlatform, watchForHover } from '../utils'
 import { style } from 'typestyle'
 
 export default class App extends Component {
@@ -30,6 +29,7 @@ export default class App extends Component {
 
         // METHOD CALLS
         this.classNames = this.classNames()
+        watchForHover() // Place class on body if device supports hover
     }
 
     classNames() {

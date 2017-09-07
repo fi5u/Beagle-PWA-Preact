@@ -1,5 +1,5 @@
 import { h, Component } from 'preact'
-import style from './style'
+import ListItem from '../../components/list-item'
 
 export default class Home extends Component {
     constructor() {
@@ -8,7 +8,8 @@ export default class Home extends Component {
         this.data = [
             {
                 spaceSymbol: '+',
-                title: 'House of Fraser',
+                title:
+                    'House of Fraser really long title which should overflow',
                 url: 'https://www.houseoffraser.co.uk',
                 urlTemplate: 'https://www.houseoffraser.co.uk/search/$',
             },
@@ -28,11 +29,6 @@ export default class Home extends Component {
     }
 
     render() {
-        return (
-            <div class={style.home}>
-                <h1>Home</h1>
-                <p>This is the Home component.</p>
-            </div>
-        )
+        return <div>{this.data.map(item => <ListItem data={item} />)}</div>
     }
 }

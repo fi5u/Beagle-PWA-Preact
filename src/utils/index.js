@@ -49,3 +49,41 @@ export function getPlatform() {
 
     return 'windows'
 }
+
+/**
+ * Can detect whether hover state is available
+ * https://stackoverflow.com/a/30303898/997596
+ *
+ * @export
+ */
+export function watchForHover() {
+    var hasHoverClass = false
+    var container = document.body
+    var lastTouchTime = 0
+
+    function enableHover() {
+        // filter emulated events coming from touch events
+        if (new Date() - lastTouchTime < 500) return
+        if (hasHoverClass) return
+
+        container.className += ' supports-hover'
+        hasHoverClass = true
+    }
+
+    function disableHover() {
+        if (!hasHoverClass) return
+
+        container.className = container.className.replace(' supports-hover', '')
+        hasHoverClass = false
+    }
+
+    function updateLastTouchTime() {
+        lastTouchTime = new Date()
+    }
+
+    document.addEventListener('touchstart', updateLastTouchTime, true)
+    document.addEventListener('touchstart', disableHover, true)
+    document.addEventListener('mousemove', enableHover, true)
+
+    enableHover()
+}
