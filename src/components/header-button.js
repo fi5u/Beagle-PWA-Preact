@@ -1,6 +1,7 @@
+import { h, Component } from 'preact'
+import FocusProtectButton from './focus-protect-button.hoc'
 import PropTypes from 'prop-types'
 import { getColor as clr } from '../utils'
-import { h } from 'preact'
 import { style } from 'typestyle'
 
 const classNames = {
@@ -14,19 +15,6 @@ const classNames = {
             '&:active span': {
                 backgroundColor: 'rgba(255,255,255,0.1)',
             },
-            '&:focus': {
-                outline: 'none',
-                '&>span:after': {
-                    backgroundColor: 'rgba(255, 255, 255, 0.6)',
-                    borderRadius: 1,
-                    bottom: 6,
-                    content: '""',
-                    height: 2,
-                    left: 0,
-                    position: 'absolute',
-                    width: '100%',
-                },
-            },
             '&:hover svg': {
                 color: '#fff',
             },
@@ -37,29 +25,26 @@ const classNames = {
         color: clr('brand'),
         display: 'inline-block',
         padding: 8,
-        $nest: {
-            '&:focus': {
-                outline: 'none',
-            },
-        },
     }),
     icon: style({
         color: clr('brand'),
     }),
 }
 
-const HeaderButton = ({ children, label, onClick }) => {
-    return (
-        <button
-            aria-label={label}
-            className={classNames.button}
-            onClick={onClick}
-        >
-            <span className={classNames.buttonInner} tabIndex="-1">
+class HeaderButton extends Component {
+    render() {
+        const { children, label, onClick } = this.props
+
+        return (
+            <button
+                aria-label={label}
+                className={classNames.button}
+                onClick={onClick}
+            >
                 {children}
-            </span>
-        </button>
-    )
+            </button>
+        )
+    }
 }
 
 HeaderButton.propTypes = {
@@ -68,4 +53,4 @@ HeaderButton.propTypes = {
     onClick: PropTypes.func.isRequired,
 }
 
-export default HeaderButton
+export default FocusProtectButton(HeaderButton, classNames.buttonInner, 2)
