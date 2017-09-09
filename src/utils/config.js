@@ -12,3 +12,7 @@ export const colors = {
         lighter: '#e03857',
     },
 }
+
+export const transitions = {
+    itemBeingDeletedMs: 400,
+}

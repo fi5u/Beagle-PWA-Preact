@@ -4,6 +4,7 @@ import HoverEditButton from './hover-edit-button'
 import ListItemButton from './list-item-button'
 import PropTypes from 'prop-types'
 import { getColor as clr } from '../utils'
+import { transitions } from '../utils/config'
 
 /**
  * A single list item, swipeable
@@ -56,7 +57,7 @@ class ListItem extends Component {
             backgroundColor: clr('background', 'lighter'),
             padding: '10px 22px',
             position: 'relative',
-            transition: `padding ${hoverEditTransition}, transform .4s`,
+            transition: `padding ${hoverEditTransition}, transform .2s`,
             zIndex: 1,
         })
 
@@ -85,6 +86,10 @@ class ListItem extends Component {
                 },
             }),
             itemInner: itemInner,
+            itemInnerBeingDeleted: style({
+                transitionDuration: `${transitions.itemBeingDeletedMs}ms`,
+                transform: 'translateX(-100%) !important',
+            }),
             itemInnerOpen: style({
                 padding: '10px 52px 10px 22px',
                 transform: 'translateX(-100px)',
@@ -114,21 +119,19 @@ class ListItem extends Component {
     /**
      * Delete an item
      *
-     * @param {string} id
      * @memberOf ListItem
      */
-    deleteItem = id => {
-        console.log('delete ' + id)
+    deleteItem = () => {
+        this.props.deleteItem(this.props.data.id)
     }
 
     /**
      * Edit an item
      *
-     * @param {string} id
      * @memberOf ListItem
      */
-    editItem = id => {
-        console.log('edit ' + id)
+    editItem = () => {
+        console.log('edit ' + this.props.data.id)
     }
 
     /**
@@ -166,7 +169,12 @@ class ListItem extends Component {
 
     render() {
         const { itemHovered } = this.state
-        const { data, editItem, buttonsAreRevealed } = this.props
+        const {
+            data,
+            editItem,
+            buttonsAreRevealed,
+            itemBeingDeleted,
+        } = this.props
 
         return (
             <div
@@ -177,6 +185,9 @@ class ListItem extends Component {
                 <div
                     className={classes(
                         this.classNames.itemInner,
+                        itemBeingDeleted === data.id
+                            ? this.classNames.itemInnerBeingDeleted
+                            : null,
                         buttonsAreRevealed
                             ? this.classNames.itemInnerOpen
                             : null
@@ -215,6 +226,7 @@ class ListItem extends Component {
 }
 
 ListItem.propTypes = {
+    buttonsAreRevealed: PropTypes.bool.isRequired,
     closeAllButtonRevealItems: PropTypes.func.isRequired,
     data: PropTypes.shape({
         id: PropTypes.string.isRequired,
@@ -223,8 +235,9 @@ ListItem.propTypes = {
         url: PropTypes.string,
         urlTemplate: PropTypes.string.isRequired,
     }).isRequired,
+    deleteItem: PropTypes.func.isRequired,
     editItem: PropTypes.func.isRequired,
-    buttonsAreRevealed: PropTypes.bool.isRequired,
+    itemBeingDeleted: PropTypes.string.isRequired,
     toggleRevealItem: PropTypes.func.isRequired,
 }
 
